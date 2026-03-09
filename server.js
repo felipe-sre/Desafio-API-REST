@@ -7,6 +7,18 @@ const app = express();
 
 app.use(express.json());
 
+const jwt = require('jsonwebtoken');
+
+app.post('/login', (req, res) => {
+  const user = { id: 1, nome: "Admin Jitterbit" };
+  
+  const token = jwt.sign(user, process.env.JWT_SECRET, {
+    expiresIn: '1h'
+  });
+
+  res.json({ message: "Login bem-sucedido!", token: token });
+});
+
 app.use('/', orderRoutes);
 
 mongoose.connect(process.env.MONGODB_URI)
